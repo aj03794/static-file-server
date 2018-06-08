@@ -39,7 +39,9 @@
     "create-subject-with-filter": "0.0.5",
     "hapi": "^17.5.0",
     "inert": "^5.1.0",
+    "ip": "^1.1.5",
     "npm-platform-dependencies": "^0.1.0",
+    "pub-sub-redis": "0.0.2",
     "redis": "^2.8.0"
   }
 }

@@ -1,11 +1,19 @@
 import { redis } from './redis'
 import { start } from './server'
 
-const { publish, subscribe } = redis()
+const { publisherCreator, subscriberCreator } = redis()
 
-start({
-	publish,
-	subscribe
+Promise.all([
+	publisherCreator(),
+	subscriberCreator()
+])
+.then(([
+	{ publish },
+	{ subscribe }
+]) => {
+	return start({
+		publish,
+		subscribe
+	})
 })
-
 
