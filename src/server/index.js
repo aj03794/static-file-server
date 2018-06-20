@@ -17,17 +17,6 @@ export const start = async ({
     server.route({
         method: 'GET',
         path: '/{file*}',
-        // handler: {
-        //     file: function (request) {
-        //         console.log('HELLO')
-        //         return request.params.filename;
-        //     }
-        // }
-        // handler: function (request, h) {
-        //     console.log('REQUEST', request.params.file)
-        //     // const path = ex
-        //     return h.file(request.params.file)
-        // }
         handler: {
             directory: {
                 path: request => {
@@ -45,8 +34,6 @@ export const start = async ({
     })
 
     await server.start()
-
     console.log('Server running at:', server.info)
-    // console.log('Server routes:', server)
-
+    
 }
