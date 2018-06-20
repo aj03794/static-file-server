@@ -5,7 +5,7 @@ import { address } from 'ip'
 
 const server = Hapi.server({
     port: 4200,
-    // host: '0.0.0.0'
+    host: process.argv[2] === 'dev' ? '127.0.0.1' : address()
 });
 
 export const start = async ({
@@ -13,25 +13,40 @@ export const start = async ({
 }) => {
 
     await server.register(require('inert'))
-
+    console.log('ADDRESS', address())
     server.route({
         method: 'GET',
-        path: '/js/{file*}',
+        path: '/{file*}',
+        // handler: {
+        //     file: function (request) {
+        //         console.log('HELLO')
+        //         return request.params.filename;
+        //     }
+        // }
+        // handler: function (request, h) {
+        //     console.log('REQUEST', request.params.file)
+        //     // const path = ex
+        //     return h.file(request.params.file)
+        // }
         handler: {
             directory: {
                 path: request => {
                     console.log('App location:', request.headers.applocation)
                     console.log('file request:', request.params.file)
+                    console.log('----->', fs.existsSync(request.params.file))
                     const { applocation: dir } = request.headers
                     console.log('dir', dir)
-                    return dir
+                    return request.params.file
                 },
                 listing: true
-            }
+            }  
         }
+
     })
 
     await server.start()
 
-    console.log('Server running at:', server.info.uri)
+    console.log('Server running at:', server.info)
+    // console.log('Server routes:', server)
+
 }
